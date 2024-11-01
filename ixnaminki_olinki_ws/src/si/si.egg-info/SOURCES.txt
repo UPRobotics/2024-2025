@@ -1,0 +1,15 @@
+LICENSE
+package.xml
+setup.cfg
+setup.py
+resource/si
+si/__init__.py
+si.egg-info/PKG-INFO
+si.egg-info/SOURCES.txt
+si.egg-info/dependency_links.txt
+si.egg-info/requires.txt
+si.egg-info/top_level.txt
+si.egg-info/zip-safe
+test/test_copyright.py
+test/test_flake8.py
+test/test_pep257.py
