@@ -1,0 +1,1 @@
+var speedLeft= 0
