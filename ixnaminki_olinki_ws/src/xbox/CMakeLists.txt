@@ -17,8 +17,13 @@ ament_target_dependencies(xbox_reader rclcpp formatos)
 ament_target_dependencies(xbox_reader rclcpp std_srvs)
 ament_target_dependencies(xbox_reader rclcpp sensor_msgs)
 
+
+add_executable(teclado_reader src/teclado.cpp)
+ament_target_dependencies(teclado_reader rclcpp formatos)
+
 install(TARGETS
   xbox_reader
+  teclado_reader
   DESTINATION lib/${PROJECT_NAME}
 
 )

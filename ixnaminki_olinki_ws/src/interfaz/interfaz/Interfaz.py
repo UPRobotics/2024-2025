@@ -6,7 +6,7 @@ import sys
 import random
 
 
-from std_srvs.srv import SetBool
+from formatos.srv import Moverob
 
 
 import rclpy
@@ -16,16 +16,19 @@ class SetInterfaz(Node):
 
     def __init__(self):
         super().__init__('set_interfaz_client')
-        self.cli = self.create_client(SetBool, 'interfaz_')
+        self.cli = self.create_client(Moverob, 'move_robot')
         while not self.cli.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
-        self.req = SetBool.Request()
+        self.req = Moverob.Request()
 
-    def send_request(self, a):
-        self.req.data = a
+    def send_request(self, a, b):
+        self.req.d1 = a
+        self.req.d2 = b
+        self.req.flipper = 0
         return self.cli.call_async(self.req)
 
 # Backend
+
 class Backend(QObject):
 
     def __init__(self):
@@ -52,7 +55,7 @@ class Backend(QObject):
     def switchOn(self):
         print("robot on")
         interfaz_client_ = SetInterfaz()
-        res = interfaz_client_.send_request(true)
+        res = interfaz_client_.send_request(1, 0, 0)
         rclpy.spin_until_future_complete(interfaz_client_, res)
         response = res.result()
         interfaz_client_.get_logger().info(
