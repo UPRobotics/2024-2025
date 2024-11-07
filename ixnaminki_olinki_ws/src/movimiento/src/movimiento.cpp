@@ -192,9 +192,9 @@ double current_motor_velocity[4]={0.0,0.0,0.0,0.0};
 int pinR[4]=
 {
 	3, // motor derecho
-	2, // motor izquierdo
+	4, // motor izquierdo
 	1, // flipper delantero
-	4 // flipper trasero
+	2 // flipper trasero
 }; 
 const double correccion_de_corriente = 40;
 const double correccion_de_flipper = 38;
