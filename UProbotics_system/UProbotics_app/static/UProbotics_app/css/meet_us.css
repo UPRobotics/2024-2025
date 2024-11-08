@@ -1,7 +1,7 @@
 
 body {
     background-color: #1c1c1c; /* Fondo oscuro */
-    background-image: linear-gradient(135deg, #381794, #2a0f6c), url("{% static 'UProbotics_app/img/logo_blanco.png' %}"); /* Gradiente diagonal y logo como fondo */
+    background-image: linear-gradient(135deg, #82B8FF, #381794); 
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center; /* Centrar la imagen */
@@ -11,6 +11,7 @@ body {
     color: #f0f0f0; /* Color de texto ajustado para buen contraste */
     height: 100vh; /* Asegura que ocupe toda la pantalla */
 }
+
 
 ::-webkit-scrollbar {
     width: 12px;
