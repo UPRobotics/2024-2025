@@ -30,25 +30,6 @@ class SetInterfaz(Node):
 # Backend
 
 class Backend(QObject):
-
-    def __init__(self):
-        super().__init__()
-        self.timerv = QTimer(self)  # Create voltage timer
-        self.timerv.timeout.connect(self.showVoltage)  
-        self.timera = QTimer(self)  # Create amperage timer
-        self.timera.timeout.connect(self.showAmperage) 
-        self.timerc = QTimer(self)  # Create Co2 timer
-        self.timerc.timeout.connect(self.showCo)  
-        self.timerb = QTimer(self)  # Create amperage timer
-        self.timerb.timeout.connect(self.showBattery)  
-
-        self.newvoltage = []
-
-
-    actualizedVoltage = pyqtSignal(str)
-    actualizedAmperage = pyqtSignal(str)
-    actualizedCo = pyqtSignal(str)
-    actualizedBattery = pyqtSignal(str)
     
     # Funciones
     @pyqtSlot()
@@ -65,9 +46,21 @@ class Backend(QObject):
         interfaz_client_.destroy_node()        
 
 
-    @pyqtSlot()
-    def switchOff(self):
-        print("Robot Off")
+    @pyqtSlot(str)
+    def rightBand(self):
+        print("Right")
+
+    @pyqtSlot(str)
+    def leftBand(self):
+        print("left")
+
+    @pyqtSlot(str)
+    def frontFlipper(self):
+        print("front")
+
+    @pyqtSlot(str)
+    def backFlipper(self):
+        print("back")
 
 
     @pyqtSlot(int, int, int)
@@ -76,75 +69,30 @@ class Backend(QObject):
         print(f"Y Value: {value2}")
         print(f"Z Value: {value3}")
 
-    @pyqtSlot()
-    def showVoltage(self):
-        self.timerv.start(1000)
-        newVoltage = random.randint(1,100)
-        newVoltage = str(newVoltage)
-        self.timera.stop()
-        self.timerc.stop()
-        self.timerb.stop()
 
-        self.actualizedVoltage.emit(newVoltage)
 
-    @pyqtSlot()
-    def showAmperage(self):
-        self.timera.start(1000)
-        newAmperage= random.randint(1,100)
-        newAmperage = str(newAmperage)
-        self.timerv.stop()
-        self.timerc.stop()
-        self.timerb.stop()
-
-        self.actualizedAmperage.emit(newAmperage)
-
-    @pyqtSlot()
-    def showCo(self):
-        self.timerc.start(1000)
-        newCo= random.randint(1,100)
-        newCo = str(newCo)
-        self.timerv.stop()
-        self.timera.stop()
-        self.timerb.stop()
-
-        self.actualizedCo.emit(newCo)
-
+def main():
         
-    @pyqtSlot()
-    def showBattery(self):
-        self.timerb.start(1000)
-        newBattery= random.randint(1,100)
-        newBattery = str(newBattery)
-        self.timerv.stop()
-        self.timera.stop()
-        self.timerc.stop()
+        app = QApplication(sys.argv)
 
-        self.actualizedBattery.emit(newBattery)
+        #ROS2
+        rclpy.init()
 
+        # Crear el motor para cargar el archivo QML
+        engine = QQmlApplicationEngine()
 
+        # Cargar el archivo QML
+        engine.load("/home/bruno_rb/ixnaminki_olinki_ws/src/interfaz/interfaz/Content/Movimiento.qml")
 
-    
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-
-    #ROS2
-    rclpy.init()
-
-    # Crear el motor para cargar el archivo QML
-    engine = QQmlApplicationEngine()
-
-    # Cargar el archivo QML
-    engine.load("/home/bruno_rb/Interfaz/Content/Home.qml")
-
-    # Comprobar si se ha cargado correctamente el archivo QML
-    if not engine.rootObjects():
-        print("Error: No se cargaron objetos raíz.")
-        sys.exit(-1)
-    else:
-        print("Archivo QML cargado correctamente.")
-    
-    # Conectar el backend
-    backend = Backend()
-    engine.rootContext().setContextProperty("pyInterface", backend)
-    # Ejecutar la aplicación
-    sys.exit(app.exec_())
+        # Comprobar si se ha cargado correctamente el archivo QML
+        if not engine.rootObjects():
+            print("Error: No se cargaron objetos raíz.")
+            sys.exit(-1)
+        else:
+            print("Archivo QML cargado correctamente.")
+        
+        # Conectar el backend
+        backend = Backend()
+        engine.rootContext().setContextProperty("pyInterface", backend)
+        # Ejecutar la aplicación
+        sys.exit(app.exec_())
