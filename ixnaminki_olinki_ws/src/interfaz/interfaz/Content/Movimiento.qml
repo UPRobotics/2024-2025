@@ -695,6 +695,17 @@ ApplicationWindow { // Initialize main window
         }
     }
 
+    Timer{//Clear Warnings timer
+        id: clearWarnings
+        interval: 60000
+        repeat: true
+        running: true
+        onTriggered:{
+            warnings_text.text = " "
+        }
+
+    }
+
     Rectangle { // Warnings box
         id: warnings_box
         x: 10
