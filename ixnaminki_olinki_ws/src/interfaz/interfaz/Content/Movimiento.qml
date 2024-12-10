@@ -36,7 +36,7 @@ ApplicationWindow { // Initialize main window
         color: "#2b2929"
         }
 
-        Button { //Voltage button
+    Button { //Voltage button
             id: voltage
             x: 1230
             y: 15
@@ -57,6 +57,7 @@ ApplicationWindow { // Initialize main window
             onClicked:{
                 warnings.color ="#ffad00"
                 notification_content.text = "Showing Voltage Data \n"
+                warnings_text.text += "Showing Voltage Data \n"
                 warnings.visible = !warnings.visible
                 v_graph.visible =!v_graph.visible
                 a_graph.visible = !a_graph.visible
@@ -66,7 +67,7 @@ ApplicationWindow { // Initialize main window
         
      }
 
-        Button { //Amperage button
+    Button { //Amperage button
             id: amperage
             x: 1280
             y: 15
@@ -87,6 +88,7 @@ ApplicationWindow { // Initialize main window
             onClicked:{
                 warnings.color ="#01bedb"
                 notification_content.text = "Showing Amperage Data \n"
+                warnings_text.text += "Showing Amperage Data \n"
                 warnings.visible = !warnings.visible
                 a_graph.visible = !a_graph.visible
                 v_graph.visible = !v_graph.visible
@@ -95,7 +97,7 @@ ApplicationWindow { // Initialize main window
         
      } 
 
-     Button { //Motor Id button
+    Button { //Motor Id button
             id: change_motor_id
             x: 1000
             y: 15
@@ -117,9 +119,9 @@ ApplicationWindow { // Initialize main window
                 motors_menu.visible = !motors_menu.visible
                 }
         
-     }
+    }
 
-     Rectangle{
+    Rectangle{
         id : motor_id_background
         width: 40
         height: 25
@@ -137,10 +139,10 @@ ApplicationWindow { // Initialize main window
             color : "#ffffff"
             font.styleName: "Thin"
             text: String("000")
-        }
+    }
     
     
-    Rectangle{
+    Rectangle{//motors_menu
         id: motors_menu
         width: 200
         height: 220
@@ -171,7 +173,8 @@ ApplicationWindow { // Initialize main window
             onClicked:{
                 pyInterface.rightBand(motor_id.text)
                 warnings.color ="#fb7118"
-                notification_content.text = (" Right Band Motor ID Updated with value "+ motor_id.text)
+                notification_content.text = ("Right Band Motor ID Updated with value "+ motor_id.text+"\n")
+                warnings_text.text += ("Right Band Motor ID Updated with value "+ motor_id.text+"\n")
                 warnings.visible = !warnings.visible
                 motors_menu.visible= !motors_menu.visible
                 resetNotification.start()
@@ -200,7 +203,8 @@ ApplicationWindow { // Initialize main window
             onClicked:{
                 pyInterface.leftBand(motor_id.text)
                 warnings.color ="#fb7118"
-                notification_content.text = (" Left Band Motor ID Updated with value " + motor_id.text)
+                notification_content.text = ("Left Band Motor ID Updated with value " + motor_id.text)
+                warnings_text.text += ("Left Band Motor ID Updated with value " + motor_id.text + "\n")
                 warnings.visible = !warnings.visible
                 motors_menu.visible= !motors_menu.visible
                 resetNotification.start()
@@ -229,7 +233,8 @@ ApplicationWindow { // Initialize main window
             onClicked:{
                 pyInterface.frontFlipper(motor_id.text)
                 warnings.color ="#fb7118"
-                notification_content.text = (" Front Flipper Motor ID Updated with value "+ motor_id.text)
+                notification_content.text = ("Front Flipper Motor ID Updated with value "+ motor_id.text)
+                warnings_text.text += ("Front Flipper Motor ID Updated with value "+ motor_id.text+"\n")
                 warnings.visible = !warnings.visible
                 motors_menu.visible= !motors_menu.visible
                 resetNotification.start()
@@ -258,7 +263,8 @@ ApplicationWindow { // Initialize main window
             onClicked:{
                 pyInterface.backFlipper(motor_id.text)
                 warnings.color ="#fb7118"
-                notification_content.text = (" Back Flipper Motor ID Updated with value "+ motor_id.text)
+                notification_content.text = ("Back Flipper Motor ID Updated with value "+ motor_id.text)
+                warnings_text.text += ("Back Flipper Motor ID Updated with value "+ motor_id.text+"\n")
                 warnings.visible = !warnings.visible
                 motors_menu.visible= !motors_menu.visible
                 resetNotification.start()
@@ -267,7 +273,6 @@ ApplicationWindow { // Initialize main window
         }
     }
         
-
     Rectangle{ //Notifications
             id: warnings
             x: 500
@@ -304,8 +309,7 @@ ApplicationWindow { // Initialize main window
                 font.bold: true
                 color: "White"
             }
-
-        }
+    }
 
     Rectangle { // Voltage Graph
         id: v_graph
@@ -492,7 +496,7 @@ ApplicationWindow { // Initialize main window
             color: "White"
 
         }
-        }
+    }
 
     Rectangle { // Amperage Graph
         id: a_graph
@@ -681,7 +685,7 @@ ApplicationWindow { // Initialize main window
         }
     }  
 
-    Timer{
+    Timer{ //Reset notification timer
         id: resetNotification
         interval: 1000
         repeat: false
@@ -691,19 +695,285 @@ ApplicationWindow { // Initialize main window
         }
     }
 
+    Rectangle { // Warnings box
+        id: warnings_box
+        x: 10
+        y: 85
+        width: 350
+        height: 300
+        opacity: 0.5
+        color: "#1d1d1b"
+        radius: 40
+
+        Text { // warnings box title
+            id: warningstitle
+            x: 100
+            y: 24
+            color: "White"
+            text: qsTr("Warnings")
+            font.pixelSize: 25
+            font.styleName: "Thin"
+            font.bold: true
+        }
+        
+        TextArea{ // text area that shows the warning *need changes
+            x:10
+            y:54
+            width:280
+            height:220
+            id: warnings_text
+            readOnly:true
+            wrapMode: Text.WordWrap
+            placeholderText: "Welcome to UP Robotics Interface"
+            color:"#ffffff"
+
+            onTextChanged:{
+                
+            }
+
+            
+
+        }
+    }
+
+    Button { //Front  button
+            id: front
+            x: 45
+            y: 600
+            text: qsTr("")
+            flat: false
+            background: Rectangle{
+                color: "transparent"
+                width: 40
+                height: 40
+                radius: 20
+            }
+            
+            contentItem: Image{
+                id : buttonfront
+                source: "../front.png"
+                
+            }
+
+        onClicked: {
+                buttonfront.source = "../frontchanged.png"
+                resetButtonfront.start()
+                
+            }
+
+        Timer{
+                id: resetButtonfront
+                interval: 200
+                repeat: false
+                onTriggered:{
+                    buttonfront.source = "../front.png"
+                    
+                }
+            }
+        
+     }
+
+    Button { //Back button
+            id: back
+            x: 45
+            y: 645
+            text: qsTr("")
+            flat: false
+            background: Rectangle{
+                color: "transparent"
+                width: 40
+                height: 40
+                radius: 20
+            }
+            
+            contentItem: Image{
+                id : buttonback
+                source: "../back.png"
+                
+            }
+            
+            onClicked: {
+                buttonback.source = "../backchanged.png"
+                resetButtonback.start()
+                
+            }
+
+        Timer{
+                id: resetButtonback
+                interval: 200
+                repeat: false
+                onTriggered:{
+                    buttonback.source = "../back.png"
+                    
+                }
+            }
+        
+
+
+        
+     }
+
+    Button { //Front1 button
+            id: front1
+            x: 105
+            y: 600
+            text: qsTr("")
+            flat: false
+            background: Rectangle{
+                color: "transparent"
+                width: 40
+                height: 40
+                radius: 20
+            }
+            
+            contentItem: Image{
+                id: buttonfront1
+                source: "../front.png"
+                
+            }
+
+        onClicked: {
+                buttonfront1.source = "../frontchanged.png"
+                resetButtonfront1.start()
+                
+            }
+
+        Timer{
+                id: resetButtonfront1
+                interval: 200
+                repeat: false
+                onTriggered:{
+                    buttonfront1.source = "../front.png"
+                    
+                }
+            }
+        
+       }
+
+    Button { //Back1 button
+            id: back1
+            x: 105
+            y: 645
+            text: qsTr("")
+            flat: false
+            background: Rectangle{
+                color: "transparent"
+                width: 40
+                height: 40
+                radius: 20
+            }
+            
+            contentItem: Image{
+                id: buttonback1
+                source: "../back.png"
+                
+            }            
+            
+       onClicked: {
+                buttonback1.source = "../backchanged.png"
+                resetButtonback1.start()
+                
+            }
+
+        Timer{
+                id: resetButtonback1
+                interval: 200
+                repeat: false
+                onTriggered:{
+                    buttonback1.source = "../back.png"
+                    
+                }
+            }
+
+     }
+
+    Button { //Left button
+            id: left
+            x: 10
+            y: 622.5
+            text: qsTr("")
+            flat: false
+            background: Rectangle{
+                color: "transparent"
+                width: 40
+                height: 40
+                radius: 20
+            }
+            
+            contentItem: Image{
+                id: leftbutton
+                source: "../Left.png"
+                
+            }
+        onClicked: {
+                leftbutton.source = "../leftchanged.png"
+                resetButtonleft.start()
+                
+            }
+
+        Timer{
+                id: resetButtonleft
+                interval: 200
+                repeat: false
+                onTriggered:{
+                    leftbutton.source = "../Left.png"
+                    
+                }
+            }
+
+        
+     }
+     
+    Button { //Right button
+            id: right
+            x: 140
+            y: 622.5
+            text: qsTr("")
+            flat: false
+            background: Rectangle{
+                color: "transparent"
+                width: 40
+                height: 40
+                radius: 20
+            }
+            
+            contentItem: Image{
+                id: buttonright
+                source: "..//Right.png"
+                
+            }
+
+        onClicked: {
+                buttonright.source = "../rightchanged.png"
+                resetButtonright.start()
+                
+            }
+
+        Timer{
+                id: resetButtonright
+                interval: 200
+                repeat: false
+                onTriggered:{
+                    buttonright.source = "../Right.png"
+                    
+                }
+            }
+        
+     }
+
     Keys.onPressed: (event) => {
        if (event.key === Qt.Key_Return || event.key === Qt.Key_W) {
-            //front.clicked()
+            front.clicked()
         } else if (event.key === Qt.Key_Return || event.key === Qt.Key_S) {
-           //back.clicked()
+           back.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_Up){
-            //front1.clicked()
+            front1.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_Down){
-            //back1.clicked()
+            back1.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_Left){
-            //left.clicked()
+            left.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_Right){
-            //right.clicked()
+            right.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_A){
             amperage.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_V){
@@ -715,11 +985,11 @@ ApplicationWindow { // Initialize main window
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_L){
             banda_izquierda.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_F){
-            change_motor_id.clicked()
+            flipper_delantero.clicked()
         }else if (event.key === Qt.Key_Return || event.key === Qt.Key_B){
-            change_motor_id.clicked()
+            flipper_trasero.clicked()
         }
-}
+    }
     
 
 }
