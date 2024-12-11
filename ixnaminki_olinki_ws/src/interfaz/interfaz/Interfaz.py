@@ -69,6 +69,33 @@ class Backend(QObject):
         print(f"Y Value: {value2}")
         print(f"Z Value: {value3}")
 
+    @pyqtSlot()
+    def moveFront1(self):
+        print("Moving Forward")
+
+    @pyqtSlot()
+    def moveFront2(self):
+        print("Moving Forward")
+
+    @pyqtSlot()
+    def moveBack1(self):
+        print("Going Back")
+
+    @pyqtSlot()
+    def moveBack2(self):
+        print("Going Back")
+
+    @pyqtSlot()
+    def moveRight(self):
+        print("Rigth")
+    
+    @pyqtSlot()
+    def moveLeft(self):
+        print("Left")
+
+
+
+
 
 
 def main():
