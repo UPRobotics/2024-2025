@@ -769,6 +769,7 @@ ApplicationWindow { // Initialize main window
         onClicked: {
                 buttonfront.source = "../frontchanged.png"
                 resetButtonfront.start()
+                pyInterface.moveFront1()
                 
             }
 
@@ -806,6 +807,7 @@ ApplicationWindow { // Initialize main window
             onClicked: {
                 buttonback.source = "../backchanged.png"
                 resetButtonback.start()
+                pyInterface.moveBack1()
                 
             }
 
@@ -846,6 +848,7 @@ ApplicationWindow { // Initialize main window
         onClicked: {
                 buttonfront1.source = "../frontchanged.png"
                 resetButtonfront1.start()
+                pyInterface.moveFront2()
                 
             }
 
@@ -883,6 +886,8 @@ ApplicationWindow { // Initialize main window
        onClicked: {
                 buttonback1.source = "../backchanged.png"
                 resetButtonback1.start()
+                pyInterface.moveBack2()
+
                 
             }
 
@@ -919,6 +924,7 @@ ApplicationWindow { // Initialize main window
         onClicked: {
                 leftbutton.source = "../leftchanged.png"
                 resetButtonleft.start()
+                pyInterface.moveLeft()
                 
             }
 
@@ -957,6 +963,7 @@ ApplicationWindow { // Initialize main window
         onClicked: {
                 buttonright.source = "../rightchanged.png"
                 resetButtonright.start()
+                pyInterface.moveRight()
                 
             }
 
